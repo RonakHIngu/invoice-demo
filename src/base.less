@@ -1,0 +1,67 @@
+@primary-color             : #378EEC;
+@button-blue-color         : #5291a8;
+@cancel-button-color       : #c5c5c5;
+@equipment-background-color: #f6f6f6;
+@light-primary-color       : lighten(@primary-color, 10%);
+@dark-primary-color        : darken(@primary-color, 10%);
+@bg-body                   : #f8f8f8;
+@bg-content                : white;
+@error-color               : #ff4d4f;
+@success-color             : #42b34d;
+@info-color                : #17a2b8;
+@warning-color             : #ffc107;
+@warning-font-color        : #212529;
+@white-color               : #fff;
+@default-border-color      : #d9d9d9;
+@default-hover-color       : #246dc7;
+@default-font-color        : #212529;
+@menu-header               : #24344b;
+@copy-button-color         : #54add3;
+@profit-color              : #42b34d;
+@material-header-color     : #777777;
+@popup-header-color        : #a3a3a3;
+@black-color               : #000000;
+@icon-color                : #59b8e1;
+@overhead-box-color        : #efefef;
+@tab-default-color         : #606060;
+@border-radius             : 1px solid #ccc;
+
+@font-title: 'Proza Libre', sans-serif;
+@font-body : 'Open Sans',
+sans-serif;
+
+@soft-color: lighten(@text-color, 20%);
+
+
+@small : 375px;
+@mobile: 767px;
+
+@content-width: 1000px;
+
+@mixin clearfix() {
+    &::after {
+        content: "";
+        display: block;
+        clear    : both;
+    }
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.pad10 {
+    padding: 10px;
+}
+
+.remove-border {
+    border: unset
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Web site created using create-react-app" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+            manifest.json provides metadata used when your web app is installed on a
+            user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+        -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+            Notice the use of %PUBLIC_URL% in the tags above.
+            It will be replaced with the URL of the `public` folder during the build.
+            Only files inside the `public` folder can be referenced from the HTML.
+
+            Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+            work correctly both with client-side routing and a non-root public URL.
+            Learn how to configure a non-root public URL by running `npm run build`.
+        -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <title>React App</title>
+
+    <style type="text/css">
+        .containers {
+            max-width: 800px;
+            margin: 0 auto;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .invoice-title h1 {
+            font-size: 50px;
+            text-align: right;
+            margin: 0;
+            font-weight: 400;
+            color: #373737;
+        }
+
+        .invoice-wrapper {
+            padding: 20px 50px 50px 50px;
+            /* box-shadow: 0px 4px 5px gray; */
+        }
+
+        .invoice-row {
+            width: 90%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .invoice-col-6 {
+            width: 50%;
+            display: inline-block;
+        }
+
+        .invoice-number {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 5px;
+            color: #868686;
+            margin-right: 25px;
+            width: 80%;
+            margin-right: 5px;
+        }
+
+        .Date-block {
+            text-align: right;
+            width: 70%;
+            float: right;
+            margin-top: 20px;
+            font-size: 17px;
+        }
+
+        .flex-row {
+            display: flex;
+        }
+
+        .row-margin {
+            margin: 10px 20px;
+        }
+
+        .flex-row .date,
+        .flex-row .balance {
+            width: 50%;
+        }
+
+        .flex-row .label {
+            width: 50%;
+            font-size: 17px;
+        }
+
+        .flex-row.balance-due {
+            /* background: #f2f2f2; */
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            /* border-left: 8px solid #dbdbdb; */
+        }
+
+        .flex-row .label {
+            color: #555;
+        }
+
+        .flex-row.balance-due .label {
+            color: black;
+        }
+
+        .invoice-logo-text {
+            color: #373737;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 35px;
+        }
+
+        .invoice-bill .w-50 {
+            width: 50%;
+        }
+
+        .i-text {
+            margin-top: 10px;
+            color: #373737;
+            padding-right: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .price-table {
+            width: 100%;
+        }
+
+        .price-table-row.first-row {
+            background: #373737;
+            border-top: 4px solid #000;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .price-table-row div {
+            padding: 2px 10px;
+        }
+
+        .price-table-row {
+            display: flex;
+        }
+
+        .price-table-row.margin-top {
+            margin-top: 15px;
+            border-top: 1px solid #a6a6a61c;
+            padding-top: 15px;
+        }
+
+        .price-table .name,
+        .price-table .quat {
+            text-align: left;
+        }
+
+        .price-table .quat {
+            width: 15%;
+            text-align: center;
+        }
+
+        .price-table-row div.border-right-0 {
+            border-right: 0px !important;
+        }
+
+        .price-table-row.first-row div {
+            padding: 8px 20px;
+            font-weight: 600;
+            background: #37373700;
+            border: 1px solid #373737;
+            color: white;
+            border-radius: 5px;
+            margin-top: 0;
+        }
+
+        .price-table .right-align {
+            text-align: right;
+        }
+
+        .price-table .amount {
+            width: 15%;
+            text-align: left;
+        }
+
+        .quat.text-right {
+            text-align: right;
+            font-size: 14px;
+            color: #777;
+            width: 30%;
+        }
+
+        .border-table.price-table {
+            margin-top: 40px;
+            background: #f2f2f25c;
+            border: 1px solid #f1f1f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .price-table .name {
+            width: 100%;
+        }
+
+        .notes-block .label {
+            margin: 15px 0px 15px 0;
+            display: inline-block;
+            background: #373737;
+            padding: 5px 15px 5px 10px;
+            color: white;
+            border-radius: 5px;
+            border-left: 5px solid black;
+        }
+
+        .notes-block .text {
+            line-height: 1.5;
+        }
+
+        .notes-block ul {
+            padding: 5px 0px 0 25px;
+            margin: 0;
+        }
+
+        .notes-block ul li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1024px) {
+            .invoice-title h1 {
+                font-size: 40px;
+            }
+
+            .invoice-number {
+                font-size: 17px;
+            }
+
+            .Date-block,
+            .flex-row .label {
+                font-size: 15px;
+            }
+
+            .Date-block {
+                width: 60%;
+            }
+
+            .price-table-row div,
+            .quat.text-right {
+                font-size: 15px;
+            }
+
+            .invoice-col-6.w-md-45 {
+                width: 45%;
+            }
+
+            .invoice-col-6.w-md-55 {
+                width: 55%;
+            }
+        }
+
+        @media (max-width:1023px) {
+            .Date-block {
+                width: 90%;
+            }
+
+
+        }
+
+        @media (max-width: 479px) {
+            .invoice-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .invoice-wrapper {
+                padding: 20px;
+            }
+
+            .invoice-row.invoice-bill {
+                margin-top: 40px;
+            }
+
+            .invoice-row .invoice-col-6 {
+                width: 100%;
+            }
+
+            .invoice-title h1,
+            .invoice-number {
+                text-align: center;
+            }
+
+            .Date-block {
+                width: 100%;
+                text-align: left;
+            }
+
+            .quat.text-right {
+                width: 70%;
+            }
+
+            .name.border-right-0 {
+                display: none;
+            }
+
+            .invoice-logo-text {
+                text-align: center;
+            }
+
+            .logo {
+                text-align: center;
+            }
+
+            .flex-row.balance-due {
+                border-left: 0px solid #dbdbdb;
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .invoice-title h1 {
+            font-size: 50px;
+            text-align: right;
+            margin: 0;
+            font-weight: 400;
+            color: #373737;
+            width: 80%;
+            margin-right: 5px;
+        }
+
+        .invoice-wrapper {
+            padding: 20px 50px 50px 50px;
+            box-shadow: 0px 4px 5px gray;
+        }
+
+        .invoice-row {
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .invoice-col-6 {
+            width: 50%;
+            display: inline-block;
+        }
+
+        .invoice-number {
+            text-align: right;
+            font-size: 20px;
+            margin-top: 5px;
+            color: #868686;
+        }
+
+        .Date-block {
+            text-align: right;
+            width: 70%;
+            float: right;
+            margin-top: 20px;
+            font-size: 15px;
+        }
+
+        .flex-row {
+            display: flex;
+        }
+
+        .row-margin {
+            margin: 10px 20px;
+        }
+
+        .flex-row .date,
+        .flex-row .balance {
+            width: 50%;
+        }
+
+        .flex-row .label {
+            width: 50%;
+            font-size: 15px;
+        }
+
+        .flex-row.balance-due {
+            background: #f2f2f2;
+            padding: 10px 20px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 8px solid #dbdbdb;
+        }
+
+        .flex-row .label {
+            color: #555;
+        }
+
+        .flex-row.balance-due .label {
+            color: black;
+        }
+
+        .invoice-logo-text {
+            color: #373737;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 35px;
+        }
+
+        .invoice-bill .w-50 {
+            width: 50%;
+        }
+
+        .i-text {
+            margin-top: 10px;
+            color: #373737;
+            padding-right: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .price-table {
+            width: 100%;
+        }
+
+        .price-table-row.first-row {
+            background: #373737;
+            border-top: 4px solid #000;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .price-table-row td {
+            padding: 8px 20px;
+            margin: 5px 0 0 0;
+            font-size: 14px;
+        }
+
+        .price-table-row {
+            display: flex;
+        }
+
+        .price-table-row.margin-top {
+            margin-top: 15px;
+            border-top: 1px solid #a6a6a61c;
+            padding-top: 15px;
+        }
+
+        .price-table .name,
+        .price-table .quat {
+            text-align: left;
+        }
+
+        .price-table .quat {
+            width: 15%;
+            text-align: center;
+        }
+
+        .price-table-row div.border-right-0 {
+            border-right: 0px !important;
+        }
+
+        .price-table-row.first-row td {
+            padding: 8px 20px;
+            font-weight: 600;
+            background: #37373700;
+            border: 1px solid #373737;
+            color: white;
+            border-radius: 5px;
+            margin-top: 0;
+        }
+
+        .price-table .right-align {
+            text-align: right;
+        }
+
+        .price-table .amount {
+            width: 30%;
+            text-align: center;
+        }
+
+        .quat.text-right {
+            text-align: right;
+            font-size: 14px;
+            color: #373737c9;
+            width: 30%;
+        }
+
+        .border-table.price-table {
+            margin-top: 40px;
+            background: #f2f2f25c;
+            border: 1px solid #f1f1f1;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+        }
+
+        .price-table .name {
+            width: 100%;
+        }
+
+        .notes-block .label {
+            margin: 15px 0px 15px 0;
+            display: inline-block;
+            background: #373737;
+            padding: 5px 15px 5px 10px;
+            color: white;
+            border-radius: 5px;
+            border-left: 5px solid black;
+            font-size: 14px;
+        }
+
+        .notes-block .text {
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .notes-block ul {
+            padding: 5px 0px 0 25px;
+            margin: 0;
+        }
+
+        .notes-block ul li {
+            margin-bottom: 6px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .name.quat {
+            width: 150%;
+        }
+
+        table {
+            width: 100%;
+        }
+    </style>
+
+</head>
+
+<body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
+            This HTML file is a template.
+            If you open it directly in the browser, you will see an empty page.
+
+            You can add webfonts, meta tags, or analytics to this file.
+            The build step will place the bundled scripts into the <body> tag.
+
+            To begin the development, run `npm start` or `yarn start`.
+            To create a production bundle, use `npm run build` or `yarn build`.
+        -->
+</body>
+
+</html>
