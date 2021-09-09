@@ -662,12 +662,10 @@ class Dashboard extends React.Component {
 
     DiscountHideShow() {
         this.setState({ DiscountHideShow: !this.state.DiscountHideShow });
-
     }
 
     TaxHideShow() {
         this.setState({ TaxHideShow: !this.state.TaxHideShow });
-
     }
 
     ShippingHideShow() {
