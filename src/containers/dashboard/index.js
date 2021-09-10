@@ -253,7 +253,7 @@ class Dashboard extends React.Component {
         this.setState({
             discountedValue: JSON.parse(localStorage.getItem("discountedValue")),
         });
-        if(localStorage.getItem("taxedAmount") && localStorage.getItem("taxedAmount") != "NaN"){
+        if(localStorage.getItem("taxedAmount") && localStorage.getItem("taxedAmount") !== "NaN"){
             console.log(localStorage.getItem("taxedAmount"))
             this.setState({
                 taxedAmount: JSON.parse(localStorage.getItem("taxedAmount")),
@@ -529,7 +529,7 @@ class Dashboard extends React.Component {
         let value = e.target.value;
         switch (field) {
             case "discount":
-                let discountValue = value && value != "" ? parseFloat(value) : 0;
+                let discountValue = value && value !== "" ? parseFloat(value) : 0;
                 this.props.invoiceStorage.invoiceSummary.discount = discountValue;
                 let discountData = {
                     key: "discount",
@@ -550,7 +550,7 @@ class Dashboard extends React.Component {
                 });
                 break;
             case "tax":
-                let taxValue = value && value != "" ? parseFloat(value) : 0;
+                let taxValue = value && value !== "" ? parseFloat(value) : 0;
                 this.props.invoiceStorage.invoiceSummary.tax = taxValue;
                 let taxData = {
                     key: "tax",
